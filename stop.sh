@@ -1,6 +1,4 @@
 #!/bin/bash
-readonly CID=${1}
-
 source "${HERA_HOME}/library.sh"
 
 is_defined "${CID}" "No container ID provided"
