@@ -1,5 +1,5 @@
 #!/bin/bash
-readonly HERA_HOME=${HERA_HOME:-'/hera.git'}
+readonly HERA_HOME=${HERA_HOME:-'./hera'}
 export HERA_HOME
 
 source "${HERA_HOME}/library.sh"
