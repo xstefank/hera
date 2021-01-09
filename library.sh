@@ -54,5 +54,8 @@ run_ssh() {
   is_defined "${hera_hostname}" 'Please define env var HERA_HOSTNAME.' 668
   is_defined "${hera_username}" 'Please define env var HERA_USERNAME' 669
 
-  ssh -o StrictHostKeyChecking=no -i "${hera_ssh_key}" "${hera_username}@${hera_hostname}" "${@}"
+  ssh -o StrictHostKeyChecking=no \
+      -i "${hera_ssh_key}" \
+      "${hera_username}@${hera_hostname}"\
+      "${@}"
 }

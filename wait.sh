@@ -1,4 +1,13 @@
 #!/bin/bash
 readonly BUILD_JOB_TIMEOUT=${BUILD_JOB_TIMEOUT:-'120'}
+readonly PAUSE_LENGTH=${PAUSE_LENGTH:-'1'}
 
-sleep "${BUILD_JOB_TIMEOUT}"
+echo "Wait for ${BUILD_JOB_TIMEOUT}."
+echo -n ''
+count=${BUILD_JOB_TIMEOUT}
+while [ "${count}" -gt 0 ];
+  count=$(expr "${count}" '-' "${PAUSE_LENGTH}")
+do
+  echo -n '.'
+  sleep "${PAUSE_LENGTH}"
+done
