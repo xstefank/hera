@@ -49,6 +49,8 @@ run_ssh() {
   local hera_hostname=${HERA_HOSTNAME}
   local hera_username=${HERA_USERNAME}
 
+  local ssh_options="-o StrictHostKeyChecking=no ${HERA_SSH_OPTIONS}"
+
 # to impl  
 #  if [ -n "${hera_ssh_key}" ]; then
 #    exists "${hera_ssh_key}" "Provided path to SSH_KEY does not exists: ${hera_ssh_key}." 667
@@ -56,7 +58,7 @@ run_ssh() {
   is_defined "${hera_hostname}" 'Please define env var HERA_HOSTNAME.' 668
   is_defined "${hera_username}" 'Please define env var HERA_USERNAME' 669
 
-  ssh -o StrictHostKeyChecking=no \
+  ssh ${ssh_options} \
       "${hera_username}@${hera_hostname}"\
       "${@}"
 }
