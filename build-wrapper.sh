@@ -4,6 +4,8 @@ readonly WRAPPED_SCRIPT=${BUILD_SCRIPT:-'1'}
 readonly HARMONIA_HOME=${HARMONIA_HOME:-"${WORKSPACE}/harmonia/"}
 readonly HERA_HOME=${HERA_HOME:-"${WORKSPACE}/hera/"}
 
+readonly MAVEN_DEBUG="-X"
+
 echo "WORKSPACE: ${WORKSPACE}"
 echo "HERA_HOME: ${HERA_HOME}"
 
@@ -23,7 +25,7 @@ echo "HARMONIA_HOME: ${HARMONIA_HOME}"
 echo "JAVA_HOME: ${JAVA_HOME}"
 echo "MAVEN_HOME: ${MAVEN_HOME}"
 echo "MAVEN_OPTS: ${MAVEN_OPTS}"
-
+echo "MAVEN_DEBUG: ${MAVEN_DEBUG}"
 cd "${WORKSPACE}"
 
 git config --global url."https://".insteadOf git:/
