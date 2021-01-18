@@ -4,7 +4,7 @@ readonly WRAPPED_SCRIPT=${BUILD_SCRIPT:-'1'}
 readonly HARMONIA_HOME=${HARMONIA_HOME:-"${WORKSPACE}/harmonia/"}
 readonly HERA_HOME=${HERA_HOME:-"${WORKSPACE}/hera/"}
 
-readonly MAVEN_VERBOSE="-X"
+export MAVEN_VERBOSE="-X"
 
 echo "WORKSPACE: ${WORKSPACE}"
 echo "HERA_HOME: ${HERA_HOME}"
