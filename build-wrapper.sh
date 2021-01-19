@@ -4,7 +4,7 @@ readonly WRAPPED_SCRIPT=${BUILD_SCRIPT:-'1'}
 readonly HARMONIA_HOME=${HARMONIA_HOME:-"${WORKSPACE}/harmonia/"}
 readonly HERA_HOME=${HERA_HOME:-"${WORKSPACE}/hera/"}
 
-export MAVEN_VERBOSE="-X"
+#export MAVEN_VERBOSE="-X"
 
 echo "WORKSPACE: ${WORKSPACE}"
 echo "HERA_HOME: ${HERA_HOME}"
@@ -27,6 +27,10 @@ echo "MAVEN_HOME: ${MAVEN_HOME}"
 echo "MAVEN_OPTS: ${MAVEN_OPTS}"
 echo "MAVEN_VERBOSE: ${MAVEN_VERBOSE}"
 cd "${WORKSPACE}"
+
+echo '======================================================================='
+env
+echo '======================================================================='
 
 git config --global url."https://".insteadOf git:/
 "${HARMONIA_HOME}/eap-job.sh" | tee "${HERA_HOME}/build_${BUILD_ID}.log"
