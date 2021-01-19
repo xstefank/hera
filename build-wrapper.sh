@@ -11,6 +11,9 @@ echo "HERA_HOME: ${HERA_HOME}"
 
 source "${HERA_HOME}/library.sh"
 
+readonly HOSTNAME=${HOSTNAME:-'localhost'}
+export HOSTNAME
+
 for var in "${HARMONIA_HOME}" "${HERA_HOME}" "${WORKSPACE}" "${MAVEN_HOME}" "${JAVA_HOME}"
 do
   is_defined "${var}" 'One of the HOME value or WORKSPACE is undefined'
