@@ -1,5 +1,6 @@
 #!/bin/bash
 readonly BUILD_SCRIPT=${BUILD_SCRIPT:-'1'}
+shift
 
 source "${HERA_HOME}/library.sh"
 
@@ -31,4 +32,4 @@ run_ssh "podman exec \
 		-e MAVEN_OPTS='"${MAVEN_OPTS}"' \
 		-e BUILD_ID="${BUILD_ID}" \
 		-e MAVEN_SETTINGS_XML="${MAVEN_SETTINGS_XML}" \
-		-ti ${SHORT_CID} '${BUILD_SCRIPT}'"
+		-ti ${SHORT_CID} '${BUILD_SCRIPT}' ${@}"
