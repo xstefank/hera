@@ -47,7 +47,8 @@ cd "${WORKSPACE}"
 printEnv
 
 #git config --global url."https://".insteadOf git:/
-"${HARMONIA_HOME}/eap-job.sh" ${@} | tee "${HERA_HOME}/build_${BUILD_ID}.log"
+
+"${HARMONIA_HOME}/eap-job.sh" ${BUILD_COMMAND} | tee "${HERA_HOME}/build_${BUILD_ID}.log"
 readonly BUILD_STATUS="${PIPESTATUS[0]}"
 echo "${BUILD_STATUS}" > "${HERA_HOME}/build_${BUILD_ID}_${BUILD_STATUS}.result"
 exit "${BUILD_STATUS}"
