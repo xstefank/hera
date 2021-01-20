@@ -62,7 +62,6 @@ if [ "${BUILD_COMMAND}" = 'testsuite' ]; then
 
 fi
 
-readonly HARMONIA_DEBUG=${HARMONIA_DEBUG:-'true'}
 if [ "${HARMONIA_DEBUG}" ]; then
   bash -x "${HARMONIA_HOME}/eap-job.sh" ${BUILD_COMMAND} | tee "${HERA_HOME}/build_${BUILD_ID}.log"
 else
