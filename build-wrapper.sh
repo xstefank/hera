@@ -57,12 +57,17 @@ if [ "${BUILD_COMMAND}" = 'testsuite' ]; then
   echo '...'
   # could increase perf, but requires to install rsync on automatons
   #rsync -arz "${PARENT_JOB_DIR}" "${WORKSPACE}"
-  cp "${PARENT_JOB_DIR}" "${WORKSPACE}"
+  cp -r "${PARENT_JOB_DIR}" "${WORKSPACE}"
   echo "Done (at $(date +%T))"
 
 fi
 
-"${HARMONIA_HOME}/eap-job.sh" ${BUILD_COMMAND} | tee "${HERA_HOME}/build_${BUILD_ID}.log"
+readonly HARMONIA_DEBUG=${HARMONIA_DEBUG:-'true'}
+if [ "${HARMONIA_DEBUG}" ]; then
+  bash -x "${HARMONIA_HOME}/eap-job.sh" ${BUILD_COMMAND} | tee "${HERA_HOME}/build_${BUILD_ID}.log"
+else
+  "${HARMONIA_HOME}/eap-job.sh" ${BUILD_COMMAND} | tee "${HERA_HOME}/build_${BUILD_ID}.log"
+fi
 readonly BUILD_STATUS="${PIPESTATUS[0]}"
 echo "${BUILD_STATUS}" > "${HERA_HOME}/build_${BUILD_ID}_${BUILD_STATUS}.result"
 exit "${BUILD_STATUS}"
