@@ -52,9 +52,14 @@ if [ "${BUILD_COMMAND}" = 'testsuite' ]; then
   is_dir "${PARENT_JOB_DIR}"
   echo "PARENT_JOB_DIR: ${PARENT_JOB_DIR}"
   echo "Copying artefacts from ${PARENT_JOB_DIR} to ${WORKSPACE}"
+  echo -n ' - starting copy at: '
+  date +%T
   echo '...'
-  cp -R "${PARENT_JOB_DIR}" "${WORKSPACE}"
-  echo 'Done.'
+  # could increase perf, but requires to install rsync on automatons
+  #rsync -arz "${PARENT_JOB_DIR}" "${WORKSPACE}"
+  cp "${PARENT_JOB_DIR}" "${WORKSPACE}"
+  echo "Done (at $(date +%T))"
+
 fi
 
 "${HARMONIA_HOME}/eap-job.sh" ${BUILD_COMMAND} | tee "${HERA_HOME}/build_${BUILD_ID}.log"
