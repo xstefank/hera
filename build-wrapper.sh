@@ -1,5 +1,6 @@
 #!/bin/bash
 
+readonly PARENT_JOB_DIR='/parent_job/'
 readonly HARMONIA_HOME=${HARMONIA_HOME:-"${WORKSPACE}/harmonia/"}
 readonly HERA_HOME=${HERA_HOME:-"${WORKSPACE}/hera/"}
 
@@ -46,7 +47,15 @@ cd "${WORKSPACE}"
 
 printEnv
 
-#git config --global url."https://".insteadOf git:/
+if [ "${BUILD_COMMAND}" = 'testsuite' ]; then
+  is_defined "${PARENT_JOB_DIR}"
+  is_dir "${PARENT_JOB_DIR}"
+  echo "PARENT_JOB_DIR: ${PARENT_JOB_DIR}"
+  echo "Copying artefacts from ${PARENT_JOB_DIR} to ${WORKSPACE}"
+  echo '...'
+  cp -R "${PARENT_JOB_DIR}" "${WORKSPACE}"
+  echo 'Done.'
+fi
 
 "${HARMONIA_HOME}/eap-job.sh" ${BUILD_COMMAND} | tee "${HERA_HOME}/build_${BUILD_ID}.log"
 readonly BUILD_STATUS="${PIPESTATUS[0]}"
