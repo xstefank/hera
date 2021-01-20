@@ -2,6 +2,12 @@
 readonly BUILD_PODMAN_IMAGE=${BUILD_PODMAN_IMAGE:-'ubi8-jdk8'}
 readonly JENKINS_HOME_DIR=${JENKINS_HOME_DIR:-'/home/jenkins/'}
 
+add_parent_volume_if_provided() {
+  if [ -n "${PARENT_JOB_VOLUME}" ]; then
+    echo "-v '${PARENT_JOB_VOLUME}:/parent_job/:ro'"
+  fi
+}
+
 container_name() {
   local job_name=$( echo "${1}" | sed -e 's; *;;g')
   local build_id=$( echo "${2}" | sed -e 's; *;;g' )
@@ -22,7 +28,7 @@ readonly VOLUME_PATH="${VOLUME_HOME}/${JOB_NAME}"
 
 run_ssh "podman run \
             --name $(container_name '${JOB_NAME}' '${BUILD_ID}') \
-            --rm \
+            --rm $(add_parent_volume_if_provided) \
             -v ${JENKINS_HOME_DIR}/jobs/${JOB_NAME}/workspace:${WORKSPACE}:rw \
             -v /opt/tools:/opt/tools:ro \
 	        -d ${BUILD_PODMAN_IMAGE} '${CONTAINER_COMMAND}'"
