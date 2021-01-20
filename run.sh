@@ -17,7 +17,6 @@ is_dir "${WORKSPACE}" "Workspace provided is not a dir: ${WORKSPACE}" 2
 is_defined "${JOB_NAME}" "No JOB_NAME provided." 3
 is_defined "${BUILD_ID}" "No BUILD_ID provided." 4
 
-
 readonly CONTAINER_COMMAND=${CONTAINER_COMMAND:-"${WORKSPACE}/hera/wait.sh"}
 readonly VOLUME_PATH="${VOLUME_HOME}/${JOB_NAME}"
 
