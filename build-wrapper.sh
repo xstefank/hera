@@ -60,8 +60,7 @@ if [ "${BUILD_COMMAND}" = 'testsuite' ]; then
   date +%T
   echo '...'
   # could increase perf, but requires to install rsync on automatons
-  #rsync -arz "${PARENT_JOB_DIR}" "${WORKSPACE}"
-  cp -vR ${PARENT_JOB_DIR}/maven-local-repository/ ${WORKSPACE}/maven-local-repository/
+  rsync -arzc --exclude hera/ --exclude harmonia/ "${PARENT_JOB_DIR}" "${WORKSPACE}"
   echo "Done (at $(date +%T))"
   echo 'check if required test dependency are available'
   find "${WORKSPACE}" -name '*wildfly-testsuite-shared*' -type d
