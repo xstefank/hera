@@ -1,8 +1,11 @@
 #!/bin/bash
+set -x
 
 readonly PARENT_JOB_DIR='/parent_job/'
 readonly HARMONIA_HOME=${HARMONIA_HOME:-"${WORKSPACE}/harmonia/"}
 readonly HERA_HOME=${HERA_HOME:-"${WORKSPACE}/hera/"}
+
+readonly FAIL_TO_SET_DEFAULT_TO_WORKSPACE_CODE='13'
 
 printEnv() {
   if [ -n "${PRINT_BUILD_ENV}" ]; then
@@ -15,6 +18,7 @@ printEnv() {
 echo "WORKSPACE: ${WORKSPACE}"
 echo "HERA_HOME: ${HERA_HOME}"
 
+# shellcheck source=./library.sh
 source "${HERA_HOME}/library.sh"
 
 readonly HOSTNAME=${HOSTNAME:-'localhost'}
@@ -43,7 +47,7 @@ echo "MAVEN_OPTS: ${MAVEN_OPTS}"
 echo "MAVEN_VERBOSE: ${MAVEN_VERBOSE}"
 echo "BUILD_COMMAND: ${BUILD_COMMAND}"
 
-cd "${WORKSPACE}"
+cd "${WORKSPACE}" || exit "${FAIL_TO_SET_DEFAULT_TO_WORKSPACE_CODE}"
 
 printEnv
 
@@ -57,9 +61,10 @@ if [ "${BUILD_COMMAND}" = 'testsuite' ]; then
   echo '...'
   # could increase perf, but requires to install rsync on automatons
   #rsync -arz "${PARENT_JOB_DIR}" "${WORKSPACE}"
-  cp -r "${PARENT_JOB_DIR}" "${WORKSPACE}"
+  cp -vR ${PARENT_JOB_DIR}/maven-local-repository/ ${WORKSPACE}/maven-local-repository/
   echo "Done (at $(date +%T))"
-
+  echo 'check if required test dependency are available'
+  find "${WORKSPACE}" -name '*wildfly-testsuite-shared*' -type d
 fi
 
 if [ "${HARMONIA_DEBUG}" ]; then
