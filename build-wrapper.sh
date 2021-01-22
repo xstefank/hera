@@ -7,9 +7,27 @@ readonly HERA_HOME=${HERA_HOME:-"${WORKSPACE}/hera/"}
 
 readonly FAIL_TO_SET_DEFAULT_TO_WORKSPACE_CODE='13'
 
+readonly MAVEN_VERBOSE="-X"
+export MAVEN_VERBOSE
+
+printJobConfig() {
+  echo "JOB_NAME: ${JOB_NAME}"
+  echo "BUILD_ID: ${BUILD_ID}"
+  echo "HARMONIA_HOME: ${HARMONIA_HOME}"
+  echo "JAVA_HOME: ${JAVA_HOME}"
+  echo "MAVEN_HOME: ${MAVEN_HOME}"
+  echo "MAVEN_OPTS: ${MAVEN_OPTS}"
+  echo "MAVEN_VERBOSE: ${MAVEN_VERBOSE}"
+  echo "BUILD_COMMAND: ${BUILD_COMMAND}"
+}
+
 printEnv() {
-  if [ -n "${PRINT_BUILD_ENV}" ]; then
-    echo "=== ${JOB_NAME} (Build #${BUIL_ID} environnement ==="
+  local job_name=${JOB_NANE:${1}}
+  local build_id=${BUILD_ID:${2}}
+  local printEnvEnable=${PRINT_BUILD_ENV:${3}}
+
+  if [ -n "${printEnvEnable}" ]; then
+    echo "=== ${job_name} (Build #${build_id} environnement ==="
     env
     echo '===================================================='
   fi
@@ -20,6 +38,24 @@ echo "HERA_HOME: ${HERA_HOME}"
 
 # shellcheck source=./library.sh
 source "${HERA_HOME}/library.sh"
+
+copy_artefact_from_parent_job() {
+  local parent_job_dir="${1}"
+  local workspace=${WORKSPACE:-${2}}
+
+  is_defined "${parent_job_dir}"
+  is_dir "${parent_job_dir}"
+
+  echo "parent_job_dir: ${parent_job_dir}"
+  echo "Copying artefacts from ${parent_job_dir} to ${workspace}"
+  echo -n ' - starting copy at: '
+  date +%T
+  echo '...'
+  rsync -ar --exclude hera/ --exclude harmonia/ "${parent_job_dir}" "${workspace}"
+  echo "Done (at $(date +%T))"
+  echo 'check if required test dependency are available'
+  find "${workspace}" -name '*wildfly-testsuite-shared*' -type d
+}
 
 readonly HOSTNAME=${HOSTNAME:-'localhost'}
 export HOSTNAME
@@ -38,32 +74,14 @@ if [ -z "${BUILD_COMMAND}" ]; then
   fi
 fi
 
-echo "JOB_NAME: ${JOB_NAME}"
-echo "BUILD_ID: ${BUILD_ID}"
-echo "HARMONIA_HOME: ${HARMONIA_HOME}"
-echo "JAVA_HOME: ${JAVA_HOME}"
-echo "MAVEN_HOME: ${MAVEN_HOME}"
-echo "MAVEN_OPTS: ${MAVEN_OPTS}"
-echo "MAVEN_VERBOSE: ${MAVEN_VERBOSE}"
-echo "BUILD_COMMAND: ${BUILD_COMMAND}"
+printJobConfig
 
 cd "${WORKSPACE}" || exit "${FAIL_TO_SET_DEFAULT_TO_WORKSPACE_CODE}"
 
 printEnv
 
 if [ "${BUILD_COMMAND}" = 'testsuite' ]; then
-  is_defined "${PARENT_JOB_DIR}"
-  is_dir "${PARENT_JOB_DIR}"
-  echo "PARENT_JOB_DIR: ${PARENT_JOB_DIR}"
-  echo "Copying artefacts from ${PARENT_JOB_DIR} to ${WORKSPACE}"
-  echo -n ' - starting copy at: '
-  date +%T
-  echo '...'
-  # could increase perf, but requires to install rsync on automatons
-  rsync -arzc --exclude hera/ --exclude harmonia/ "${PARENT_JOB_DIR}" "${WORKSPACE}"
-  echo "Done (at $(date +%T))"
-  echo 'check if required test dependency are available'
-  find "${WORKSPACE}" -name '*wildfly-testsuite-shared*' -type d
+  copy_artefact_from_parent_job "${PARENT_JOB_DIR}" "${WORKSPACE}"
 fi
 
 if [ "${HARMONIA_DEBUG}" ]; then
