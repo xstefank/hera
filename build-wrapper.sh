@@ -1,5 +1,10 @@
 #!/bin/bash
-set -x
+set -eo pipefail
+
+set +u
+readonly BUILD_COMMAND=${BUILD_COMMAND}
+readonly PRINT_BUILD_ENV=${PRINT_BUILD_ENV}
+set -u
 
 readonly PARENT_JOB_DIR='/parent_job/'
 readonly HARMONIA_HOME=${HARMONIA_HOME:-"${WORKSPACE}/harmonia/"}
@@ -22,12 +27,8 @@ printJobConfig() {
 }
 
 printEnv() {
-  local job_name=${JOB_NANE:${1}}
-  local build_id=${BUILD_ID:${2}}
-  local printEnvEnable=${PRINT_BUILD_ENV:${3}}
-
-  if [ -n "${printEnvEnable}" ]; then
-    echo "=== ${job_name} (Build #${build_id} environnement ==="
+  if [ -n "${PRINT_BUILD_ENV}" ]; then
+    echo "=== ${JOB_NAME} (Build #${BUILD_ID} environnement ==="
     env
     echo '===================================================='
   fi
