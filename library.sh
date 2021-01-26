@@ -6,6 +6,7 @@ readonly HERA_USERNAME=${HERA_USERNAME}
 readonly HERA_SSH_OPTIONS=${HERA_SSH_OPTIONS}
 readonly BUILD_ID=${BUILD_ID}
 readonly JOB_NAME=${JOB_NAME}
+readonly CONTAINER_NAME_PREFIX=${CONTAINER_NAME_PREFIX:-'automaton-slave'}
 set -u
 
 is_defined() {
@@ -94,7 +95,7 @@ container_name() {
 
   job_name=${1// /}
   build_id=${2// /}
-  name_prefix=${3:-'automaton-slave'}
+  name_prefix=${3:-${CONTAINER_NAME_PREFIX}}
 
   echo "${name_prefix}-${job_name}-${build_id}"
 }
