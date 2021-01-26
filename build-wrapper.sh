@@ -2,7 +2,14 @@
 set -eo pipefail
 
 set +u
-readonly BUILD_COMMAND=${BUILD_COMMAND}
+if [ -z "${BUILD_COMMAND}" ]; then
+  if [[ "${JOB_NAME}" == *"-testsuite"* ]]; then
+    readonly BUILD_COMMAND='testsuite'
+  fi
+else
+  readonly BUILD_COMMAND=${BUILD_COMMAND}
+fi
+
 readonly PRINT_BUILD_ENV=${PRINT_BUILD_ENV}
 readonly HARMONIA_DEBUG=${HARMONIA_DEBUG}
 set -u
@@ -69,12 +76,6 @@ do
 done
 is_defined "${JOB_NAME}" 'No BUILD_NAME provided'
 is_defined "${BUILD_ID}" 'No BUILD_ID provided'
-
-if [ -z "${BUILD_COMMAND}" ]; then
-  if [[ "${JOB_NAME}" == *"-testsuite"* ]]; then
-    readonly BUILD_COMMAND='testsuite'
-  fi
-fi
 
 printJobConfig
 
