@@ -5,7 +5,6 @@ readonly BUILD_PODMAN_IMAGE=${BUILD_PODMAN_IMAGE:-'ubi8-jdk8'}
 readonly JENKINS_HOME_DIR=${JENKINS_HOME_DIR:-'/home/jenkins/'}
 readonly JOB_NAME=${JOB_NAME}
 readonly BUILD_ID=${BUILD_ID}
-readonly CONTAINER_NAME_PREFIX=${CONTAINER_NAME_PREFIX}
 set -u
 
 add_parent_volume_if_provided() {
@@ -22,11 +21,12 @@ is_dir "${WORKSPACE}" "Workspace provided is not a dir: ${WORKSPACE}" 2
 is_defined "${JOB_NAME}" "No JOB_NAME provided." 3
 is_defined "${BUILD_ID}" "No BUILD_ID provided." 4
 
+readonly CONTAINER_TO_RUN_NAME=${CONTAINER_TO_RUN_NAME:-$(container_name "${JOB_NAME}" "${BUILD_ID}")}
 readonly CONTAINER_COMMAND=${CONTAINER_COMMAND:-"${WORKSPACE}/hera/wait.sh"}
 
 # shellcheck disable=SC2016
 run_ssh "podman run \
-            --name $(container_name \"${JOB_NAME}\" \"${BUILD_ID}\" \"${CONTAINER_NAME_PREFIX}\") \
+            --name "${CONTAINER_TO_RUN_NAME}" \
             --rm $(add_parent_volume_if_provided) \
             --workdir ${JENKINS_HOME_DIR}/jobs/${JOB_NAME}/workspace \
             -v ${JENKINS_HOME_DIR}/jobs/${JOB_NAME}:$(dirname "${WORKSPACE}"):rw \
