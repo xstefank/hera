@@ -4,6 +4,7 @@ set -eo pipefail
 set +u
 readonly BUILD_COMMAND=${BUILD_COMMAND}
 readonly PRINT_BUILD_ENV=${PRINT_BUILD_ENV}
+readonly HARMONIA_DEBUG=${HARMONIA_DEBUG}
 set -u
 
 readonly PARENT_JOB_DIR='/parent_job/'
