@@ -2,10 +2,13 @@
 readonly BUILD_SCRIPT=${BUILD_SCRIPT:-'1'}
 shift
 
-source "${HERA_HOME}/library.sh"
+# shellcheck source=library.sh
+source "${HERA_HOME}"/library.sh
 
 dumpBuildEnv() {
-  local env_dump_file=${1}
+  local env_dump_file
+
+  env_dump_file=${1}
 
   is_defined "${env_dump_file}" "No filename provided to store env."
 
