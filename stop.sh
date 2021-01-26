@@ -1,4 +1,6 @@
 #!/bin/bash
+readonly CID=${CID}
+readonly HERA_HOME=${HERA_HOME}
 set -euo pipefail
 
 # shellcheck source=library.sh
