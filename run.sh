@@ -13,18 +13,6 @@ add_parent_volume_if_provided() {
   fi
 }
 
-container_name() {
-  local job_name
-  local build_id
-  local name_prefix
-
-  job_name=${1// /}
-  build_id=${2// /}
-  name_prefix=${3:-'automaton-slave'}
-
-  echo "${name_prefix}-${job_name}-${build_id}"
-}
-
 # shellcheck source=./library.sh
 source "${HERA_HOME}"/library.sh
 
