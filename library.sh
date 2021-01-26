@@ -1,8 +1,11 @@
 #!/bin/bash
+set +u
 readonly HERA_SSH_KEY=${HERA_SSH_KEY}
 readonly HERA_HOSTNAME=${HERA_HOSTNAME}
 readonly HERA_USERNAME=${HERA_USERNAME}
 readonly HERA_SSH_OPTIONS=${HERA_SSH_OPTIONS}
+readonly BUILD_ID=${BUILD_ID}
+readonly JOB_NAME=${JOB_NAME}
 set -u
 
 is_defined() {
