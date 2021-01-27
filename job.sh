@@ -33,6 +33,7 @@ run_ssh "podman exec \
 		-e MAVEN_HOME="${MAVEN_HOME}" \
 		-e MAVEN_OPTS='"${MAVEN_OPTS}"' \
 		-e BUILD_ID="${BUILD_ID}" \
+	    -e BUILD_COMMAND="${BUILD_COMMAND}" \
         -e RERUN_FAILING_TESTS="${RERUN_FAILING_TESTS}" \
         -e TEST_TO_RUN="${TEST_TO_RUN}" \
 		-e MAVEN_SETTINGS_XML="${MAVEN_SETTINGS_XML}" \
