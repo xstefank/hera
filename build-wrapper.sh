@@ -6,6 +6,7 @@ readonly BUILD_COMMAND=${BUILD_COMMAND}
 readonly BUILD_ID=${BUILD_ID}
 readonly PRINT_BUILD_ENV=${PRINT_BUILD_ENV}
 readonly HARMONIA_DEBUG=${HARMONIA_DEBUG}
+readonly MAVEN_VERBOSE=${MAVEN_VERBOSE}
 set -u
 
 readonly PARENT_JOB_DIR='/parent_job/'
@@ -13,9 +14,6 @@ readonly HARMONIA_HOME=${HARMONIA_HOME:-"${WORKSPACE}/harmonia/"}
 readonly HERA_HOME=${HERA_HOME:-"${WORKSPACE}/hera/"}
 
 readonly FAIL_TO_SET_DEFAULT_TO_WORKSPACE_CODE='13'
-
-readonly MAVEN_VERBOSE="-X"
-export MAVEN_VERBOSE
 
 printJobConfig() {
   echo "JOB_NAME: ${JOB_NAME}"
