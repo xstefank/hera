@@ -74,7 +74,7 @@ is_defined "${BUILD_COMMAND}" 'No BUILD_COMMAND provided.'
 
 printJobConfig
 
-cd "${WORKSPACE}" || exit "${FAIL_TO_SET_DEFAULT_TO_WORKSPACE_CODE}"
+cd "${WORKSPACE}/workdir" || exit "${FAIL_TO_SET_DEFAULT_TO_WORKSPACE_CODE}"
 
 printEnv
 
