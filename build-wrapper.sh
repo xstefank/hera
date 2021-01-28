@@ -3,6 +3,7 @@ set -eo pipefail
 
 set +u
 readonly BUILD_COMMAND=${BUILD_COMMAND}
+readonly BUILD_ID=${BUILD_ID}
 readonly PRINT_BUILD_ENV=${PRINT_BUILD_ENV}
 readonly HARMONIA_DEBUG=${HARMONIA_DEBUG}
 set -u
