@@ -78,7 +78,7 @@ cd "${WORKSPACE}/workdir" || exit "${FAIL_TO_SET_DEFAULT_TO_WORKSPACE_CODE}"
 printEnv
 
 if [ "${BUILD_COMMAND}" = 'testsuite' ]; then
-  copy_artefact_from_parent_job "${PARENT_JOB_DIR}/workdir" "${WORKSPACE}"
+  copy_artefact_from_parent_job "${PARENT_JOB_DIR}/workdir" "${WORKSPACE}/workdir"
 fi
 
 if [ "${HARMONIA_DEBUG}" ]; then
