@@ -46,8 +46,8 @@ copy_artefact_from_parent_job() {
   local parent_job_dir="${1}"
   local workspace=${WORKSPACE:-${2}}
 
-  is_defined "${parent_job_dir}"
-  is_dir "${parent_job_dir}"
+  is_defined "${parent_job_dir}" 'No parent job dir provided'
+  is_dir "${parent_job_dir}" "Provided parent job dir is not a directory: ${parent_job_dir}"
 
   echo "parent_job_dir: ${parent_job_dir}"
   echo "Copying artefacts from ${parent_job_dir} to ${workspace}"
