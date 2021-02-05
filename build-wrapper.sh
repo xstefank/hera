@@ -24,7 +24,6 @@ printJobConfig() {
   echo "MAVEN_OPTS: ${MAVEN_OPTS}"
   echo "MAVEN_VERBOSE: ${MAVEN_VERBOSE}"
   echo "BUILD_COMMAND: ${BUILD_COMMAND}"
-  echo "TEST_TO_RUN: ${TEST_TO_RUN}"
   echo "RERUN_FAILING_TESTS: ${RERUN_FAILING_TESTS}"
 }
 

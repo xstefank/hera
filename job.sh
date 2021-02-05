@@ -35,6 +35,5 @@ run_ssh "podman exec \
 		-e BUILD_ID="${BUILD_ID}" \
 	    -e BUILD_COMMAND="${BUILD_COMMAND}" \
         -e RERUN_FAILING_TESTS="${RERUN_FAILING_TESTS}" \
-        -e TEST_TO_RUN="${TEST_TO_RUN}" \
 		-e MAVEN_SETTINGS_XML="${MAVEN_SETTINGS_XML}" \
 		-ti ${CONTAINER_NAME} '${BUILD_SCRIPT}' ${@}"
