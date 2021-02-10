@@ -75,6 +75,8 @@ printJobConfig
 
 cd "${WORKSPACE}/workdir" || exit "${FAIL_TO_SET_DEFAULT_TO_WORKSPACE_CODE}"
 
+PRINT_BUILD_ENV=true
+export USER='jenkins'
 printEnv
 
 if [ "${BUILD_COMMAND}" = 'testsuite' ]; then
