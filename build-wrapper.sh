@@ -4,7 +4,7 @@ set -eo pipefail
 set +u
 readonly BUILD_COMMAND=${BUILD_COMMAND}
 readonly BUILD_ID=${BUILD_ID}
-readonly PRINT_BUILD_ENV=${PRINT_BUILD_ENV}
+readonly PRINT_BUILD_ENV=${PRINT_BUILD_ENV:-'true'}
 readonly HARMONIA_DEBUG=${HARMONIA_DEBUG}
 readonly MAVEN_VERBOSE=${MAVEN_VERBOSE}
 set -u
@@ -75,7 +75,6 @@ printJobConfig
 
 cd "${WORKSPACE}/workdir" || exit "${FAIL_TO_SET_DEFAULT_TO_WORKSPACE_CODE}"
 
-PRINT_BUILD_ENV=true
 export USER='jenkins'
 printEnv
 
