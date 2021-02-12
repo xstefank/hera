@@ -27,6 +27,7 @@ readonly CONTAINER_COMMAND=${CONTAINER_COMMAND:-"${WORKSPACE}/hera/wait.sh"}
 # shellcheck disable=SC2016
 run_ssh "podman run \
             --name "${CONTAINER_TO_RUN_NAME}" \
+             --add-host=thunder.next:192.168.0.11 \
             --rm $(add_parent_volume_if_provided) \
             --workdir ${JENKINS_HOME_DIR}/jobs/${JOB_NAME}/workspace \
             -v ${JENKINS_HOME_DIR}/jobs/${JOB_NAME}:$(dirname "${WORKSPACE}"):rw \
