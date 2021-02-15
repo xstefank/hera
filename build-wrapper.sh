@@ -61,6 +61,14 @@ copy_artefact_from_parent_job() {
   find "${workspace}" -name '*wildfly-testsuite-shared*' -type d
 }
 
+disableTest() {
+  local javaClassname=${1}
+
+  test2disable=$(find "${WORKSPACE}" -name "${javaClassname}.java")
+  sed -i "${test2disable}" -e "s/\(^ *public class ${javaClassname}\)/@org.junit.Ignore \1/"
+}
+
+
 readonly HOSTNAME=${HOSTNAME:-'localhost'}
 export HOSTNAME
 
@@ -83,6 +91,11 @@ printEnv
 if [ "${BUILD_COMMAND}" = 'testsuite' ]; then
   copy_artefact_from_parent_job "${PARENT_JOB_DIR}/workdir" "${WORKSPACE}/workdir"
 fi
+
+disableTest 'WSTrustTestCase'
+disableTest 'ParseAndMarshalModelsTestCase'
+
+sed -i "${test2disable}" -e 's/\(^ *public class WSTrustTestCase\)/@org.junit.Ignore \1/'
 
 if [ "${HARMONIA_DEBUG}" ]; then
   bash -x "${HARMONIA_HOME}/eap-job.sh" ${BUILD_COMMAND} 2>&1 | tee "${HERA_HOME}/build_${BUILD_ID}.log"
