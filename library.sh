@@ -5,6 +5,7 @@ readonly HERA_HOSTNAME=${HERA_HOSTNAME}
 readonly HERA_USERNAME=${HERA_USERNAME:-'jenkins'}
 readonly HERA_SSH_OPTIONS=${HERA_SSH_OPTIONS}
 readonly CONTAINER_NAME_PREFIX=${CONTAINER_NAME_PREFIX:-'automaton-slave'}
+export TERM=${TERM:-'screen'}
 set -u
 
 is_defined() {
