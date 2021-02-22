@@ -26,6 +26,7 @@ readonly CONTAINER_NAME=$(container_name "${JOB_NAME}" "${BUILD_ID}")
 
 dumpBuildEnv "${HERA_HOME}/build-env.sh"
 
+set +u
 run_ssh "podman exec \
 		-e JOB_NAME="${JOB_NAME}" \
 		-e WORKSPACE="${WORKSPACE}" \

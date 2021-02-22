@@ -7,6 +7,7 @@ readonly PRINT_BUILD_ENV=${PRINT_BUILD_ENV:-'true'}
 readonly MAVEN_SETTINGS_XML='/opt/tools/settings.xml'
 set -u
 
+readonly HERA_HOME=${HERA_HOME:-"${WORKSPACE}/hera/"}
 readonly FAIL_TO_SET_DEFAULT_TO_WORKSPACE_CODE='13'
 
 printJobConfig() {
