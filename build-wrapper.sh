@@ -7,7 +7,7 @@ readonly BUILD_ID=${BUILD_ID}
 readonly PRINT_BUILD_ENV=${PRINT_BUILD_ENV:-'true'}
 readonly HARMONIA_DEBUG=${HARMONIA_DEBUG}
 readonly MAVEN_VERBOSE=${MAVEN_VERBOSE}
-readonly MAVEN_SETTINGS_XML='/opt/tools/settings.xml'
+readonly MAVEN_SETTINGS_XML=${MAVEN_SETTINGS_XML:-'/opt/tools/settings.xml'}
 set -u
 
 readonly PARENT_JOB_DIR='/parent_job/'
