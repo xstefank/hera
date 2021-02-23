@@ -4,7 +4,7 @@ set -eo pipefail
 set +u
 readonly BUILD_ID=${BUILD_ID}
 readonly PRINT_BUILD_ENV=${PRINT_BUILD_ENV:-'true'}
-readonly MAVEN_SETTINGS_XML='/opt/tools/settings.xml'
+readonly MAVEN_SETTINGS_XML=${MAVEN_SETTINGS_XML:-'/opt/tools/settings.xml'}
 set -u
 
 readonly HERA_HOME=${HERA_HOME:-"${WORKSPACE}/hera/"}
@@ -53,4 +53,10 @@ cd "${WORKSPACE}" || exit "${FAIL_TO_SET_DEFAULT_TO_WORKSPACE_CODE}"
 
 export USER='jenkins'
 printEnv
-${MAVEN_HOME}/bin/mvn clean install
+if [ -n "${MAVEN_SETTINGS_XML}" ]; then
+  readonly MAVEN_SETTINGS_OPT="-s ${MAVEN_SETTINGS_XML}"
+else
+  readonly MAVEN_SETTINGS_OPT=""
+fi
+
+${MAVEN_HOME}/bin/mvn ${MAVEN_SETTINGS_OPT} -Dnorpm clean install
