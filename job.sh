@@ -28,13 +28,14 @@ dumpBuildEnv "${HERA_HOME}/build-env.sh"
 
 set +u
 run_ssh "podman exec \
-		-e JOB_NAME="${JOB_NAME}" \
-		-e WORKSPACE="${WORKSPACE}" \
-		-e JAVA_HOME="${JAVA_HOME}" \
-		-e MAVEN_HOME="${MAVEN_HOME}" \
-		-e MAVEN_OPTS='"${MAVEN_OPTS}"' \
-		-e BUILD_ID="${BUILD_ID}" \
-	    -e BUILD_COMMAND="${BUILD_COMMAND}" \
+        -e JOB_NAME="${JOB_NAME}" \
+        -e WORKSPACE="${WORKSPACE}" \
+        -e JAVA_HOME="${JAVA_HOME}" \
+        -e MAVEN_HOME="${MAVEN_HOME}" \
+        -e MAVEN_OPTS='"${MAVEN_OPTS}"' \
+        -e MAVEN_GOALS='"${MAVEN_GOALS}"'
+        -e BUILD_ID="${BUILD_ID}" \
+        -e BUILD_COMMAND="${BUILD_COMMAND}" \
         -e RERUN_FAILING_TESTS="${RERUN_FAILING_TESTS}" \
-		-e MAVEN_SETTINGS_XML="${MAVEN_SETTINGS_XML}" \
-		-ti ${CONTAINER_NAME} '${BUILD_SCRIPT}' ${@}"
+        -e MAVEN_SETTINGS_XML="${MAVEN_SETTINGS_XML}" \
+        -ti ${CONTAINER_NAME} '${BUILD_SCRIPT}' ${@}"
