@@ -97,8 +97,6 @@ fi
 disableTest 'WSTrustTestCase'
 disableTest 'ParseAndMarshalModelsTestCase'
 
-sed -i "${test2disable}" -e 's/\(^ *public class WSTrustTestCase\)/@org.junit.Ignore \1/'
-
 if [ "${HARMONIA_DEBUG}" ]; then
   bash -x "${HARMONIA_HOME}/eap-job.sh" ${BUILD_COMMAND} 2>&1 | tee "${HERA_HOME}/build_${BUILD_ID}.log"
 else
