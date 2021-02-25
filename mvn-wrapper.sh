@@ -5,6 +5,7 @@ set +u
 readonly BUILD_ID=${BUILD_ID}
 readonly PRINT_BUILD_ENV=${PRINT_BUILD_ENV:-'true'}
 readonly MAVEN_SETTINGS_XML=${MAVEN_SETTINGS_XML:-'/opt/tools/settings.xml'}
+readonly MAVEN_GOALS=${MAVEN_GOALS:-'clean install'}
 set -u
 
 readonly HERA_HOME=${HERA_HOME:-"${WORKSPACE}/hera/"}
@@ -19,6 +20,7 @@ printJobConfig() {
   echo "MAVEN_OPTS: ${MAVEN_OPTS}"
   echo "MAVEN_SETTINGS_XML: ${MAVEN_SETTINGS_XML}"
   echo "MAVEN_VERBOSE: ${MAVEN_VERBOSE}"
+  echo "MAVEN_GOALS: ${MAVEN_GOALS}"
   set -u
 }
 
@@ -59,4 +61,4 @@ else
   readonly MAVEN_SETTINGS_OPT=""
 fi
 
-${MAVEN_HOME}/bin/mvn ${MAVEN_SETTINGS_OPT} -Dnorpm clean install
+${MAVEN_HOME}/bin/mvn ${MAVEN_SETTINGS_OPT} ${MAVEN_GOALS}
