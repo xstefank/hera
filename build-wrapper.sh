@@ -65,7 +65,9 @@ disableTest() {
   local javaClassname=${1}
 
   test2disable=$(find "${WORKSPACE}" -name "${javaClassname}.java")
-  sed -i "${test2disable}" -e "s/\(^ *public class ${javaClassname}\)/@org.junit.Ignore \1/"
+  if [ -e "${test2disable}" ]; then
+    sed -i "${test2disable}" -e "s/\(^ *public class ${javaClassname}\)/@org.junit.Ignore \1/"
+  fi
 }
 
 
