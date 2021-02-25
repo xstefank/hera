@@ -33,7 +33,7 @@ run_ssh "podman exec \
         -e JAVA_HOME="${JAVA_HOME}" \
         -e MAVEN_HOME="${MAVEN_HOME}" \
         -e MAVEN_OPTS='"${MAVEN_OPTS}"' \
-        -e MAVEN_GOALS='"${MAVEN_GOALS}"'
+        -e MAVEN_GOALS='"${MAVEN_GOALS}"' \
         -e BUILD_ID="${BUILD_ID}" \
         -e BUILD_COMMAND="${BUILD_COMMAND}" \
         -e RERUN_FAILING_TESTS="${RERUN_FAILING_TESTS}" \
