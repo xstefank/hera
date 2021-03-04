@@ -118,7 +118,31 @@ copy_artefact_from_parent_job() {
   find "${workspace}" -name '*wildfly-testsuite-shared*' -type d
 }
 
-disableTest() {
-  local javaClassname=${1}
+printJobConfig() {
+  set +u
+  echo "JOB_NAME: ${JOB_NAME}"
+  echo "BUILD_ID: ${BUILD_ID}"
+  echo "HARMONIA_HOME: ${HARMONIA_HOME}"
+  echo "JAVA_HOME: ${JAVA_HOME}"
+  echo "MAVEN_HOME: ${MAVEN_HOME}"
+  echo "MAVEN_OPTS: ${MAVEN_OPTS}"
+  echo "MAVEN_SETTINGS_XML: ${MAVEN_SETTINGS_XML}"
+  echo "MAVEN_VERBOSE: ${MAVEN_VERBOSE}"
+  if [ -v MAVEN_GOALS ]; then
+    echo "MAVEN_GOALS: ${MAVEN_GOALS}"
+  fi
+  echo "RERUN_FAILING_TESTS: ${RERUN_FAILING_TESTS}"
+  if [ -v BUILD_COMMAND ]; then
+    echo "BUILD_COMMAND: ${BUILD_COMMAND}"
+  fi
+  set -u
+}
 
+printEnv() {
+  if [ -n "${PRINT_BUILD_ENV}" ]; then
+    echo "=== ${JOB_NAME} (Build #${BUILD_ID} environnement ==="
+    env
+    echo '===================================================='
+  fi
+}
 
