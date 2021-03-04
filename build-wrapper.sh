@@ -13,10 +13,10 @@ set -u
 readonly PARENT_JOB_DIR='/parent_job/'
 readonly HARMONIA_HOME=${HARMONIA_HOME:-"${WORKSPACE}/harmonia/"}
 readonly HERA_HOME=${HERA_HOME:-"${WORKSPACE}/hera/"}
-
 readonly FAIL_TO_SET_DEFAULT_TO_WORKSPACE_CODE='13'
 
 printJobConfig() {
+  set +u
   echo "JOB_NAME: ${JOB_NAME}"
   echo "BUILD_ID: ${BUILD_ID}"
   echo "HARMONIA_HOME: ${HARMONIA_HOME}"
@@ -25,8 +25,14 @@ printJobConfig() {
   echo "MAVEN_OPTS: ${MAVEN_OPTS}"
   echo "MAVEN_SETTINGS_XML: ${MAVEN_SETTINGS_XML}"
   echo "MAVEN_VERBOSE: ${MAVEN_VERBOSE}"
-  echo "BUILD_COMMAND: ${BUILD_COMMAND}"
+  if [ -v MAVEN_GOALS ]; then
+    echo "MAVEN_GOALS: ${MAVEN_GOALS}"
+  fi 
   echo "RERUN_FAILING_TESTS: ${RERUN_FAILING_TESTS}"
+  if [ -v BUILD_COMMAND ]; then
+    echo "BUILD_COMMAND: ${BUILD_COMMAND}"
+  fi 
+  set -u
 }
 
 printEnv() {
