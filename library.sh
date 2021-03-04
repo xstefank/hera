@@ -98,3 +98,27 @@ container_name() {
 
   echo "${name_prefix}-${job_name}-${build_id}"
 }
+
+
+copy_artefact_from_parent_job() {
+  local parent_job_dir="${1}"
+  local workspace=${2}
+
+  is_defined "${parent_job_dir}" 'No parent job dir provided'
+  is_dir "${parent_job_dir}" "Provided parent job dir is not a directory: ${parent_job_dir}"
+
+  echo "parent_job_dir: ${parent_job_dir}"
+  echo "Copying artefacts from ${parent_job_dir} to ${workspace}"
+  echo -n ' - starting copy at: '
+  date +%T
+  echo '...'
+  rsync -ar --exclude hera/ --exclude harmonia/ "${parent_job_dir}" "${workspace}"
+  echo "Done (at $(date +%T))"
+  echo 'check if required test dependency are available'
+  find "${workspace}" -name '*wildfly-testsuite-shared*' -type d
+}
+
+disableTest() {
+  local javaClassname=${1}
+
+
