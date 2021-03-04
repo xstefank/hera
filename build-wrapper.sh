@@ -2,7 +2,7 @@
 set -eo pipefail
 
 scriptType() {
-  basename ${0} | sed -e 's/-wrapper.sh//'
+  basename "${0}" | sed -e 's/-wrapper.sh//'
 }
 
 set +u
@@ -12,6 +12,7 @@ if [ "${SCRIPT_TYPE}" = 'build' ]; then
   readonly PARENT_JOB_DIR=${PARENT_JOB_DIR:-'/parent_job/'}
 fi
 readonly BUILD_ID=${BUILD_ID}
+readonly JOB_NAME=${JOB_NAME}
 readonly PRINT_BUILD_ENV=${PRINT_BUILD_ENV:-'true'}
 readonly HARMONIA_DEBUG=${HARMONIA_DEBUG}
 readonly MAVEN_VERBOSE=${MAVEN_VERBOSE}
@@ -63,8 +64,10 @@ if [ "${SCRIPT_TYPE}" = 'build' ]; then
   fi
 
   if [ "${HARMONIA_DEBUG}" ]; then
+    # shellcheck disable=SC2086
     bash -x "${HARMONIA_HOME}/eap-job.sh" ${BUILD_COMMAND} 2>&1 | tee "${HERA_HOME}/build_${BUILD_ID}.log"
   else
+    # shellcheck disable=SC2086
     "${HARMONIA_HOME}/eap-job.sh" ${BUILD_COMMAND} 2>&1 | tee "${HERA_HOME}/build_${BUILD_ID}.log"
   fi
 else
@@ -77,6 +80,7 @@ else
 
   echo '==== Executing Maven ==='
   echo "Cmd: # ${MAVEN_HOME}/bin/mvn ${MAVEN_SETTINGS_OPT} ${MAVEN_OPTS} ${MAVEN_GOALS}"
+  # shellcheck disable=SC2086
   ${MAVEN_HOME}/bin/mvn ${MAVEN_SETTINGS_OPT} ${MAVEN_OPTS} ${MAVEN_GOALS}
   echo '==== Executing Maven done ==='
 fi
