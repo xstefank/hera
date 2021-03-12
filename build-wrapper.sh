@@ -7,12 +7,13 @@ scriptType() {
 
 set +u
 readonly SCRIPT_TYPE=$(scriptType)
+readonly HARMONIA_HOME=${HARMONIA_HOME:-"${WORKSPACE}/harmonia/"}
+readonly HARMONIA_DEBUG=${HARMONIA_DEBUG}
 if [ "${SCRIPT_TYPE}" = 'build' ]; then
   readonly BUILD_COMMAND=${BUILD_COMMAND}
   readonly PARENT_JOB_DIR=${PARENT_JOB_DIR:-'/parent_job/'}
-  readonly HARMONIA_HOME=${HARMONIA_HOME:-"${WORKSPACE}/harmonia/"}
-  readonly HARMONIA_DEBUG=${HARMONIA_DEBUG}
 fi
+readonly HARMONIA_SCRIPT=${HARMONIA_SCRIPT:-'eap-job.sh'}
 readonly BUILD_ID=${BUILD_ID}
 readonly JOB_NAME=${JOB_NAME}
 readonly PRINT_BUILD_ENV=${PRINT_BUILD_ENV:-'true'}
@@ -31,10 +32,13 @@ echo "HERA_HOME: ${HERA_HOME}"
 # shellcheck source=./library.sh
 source "${HERA_HOME}/library.sh"
 
+printJobConfig
+printEnv
+
 readonly HOSTNAME=${HOSTNAME:-'localhost'}
 export HOSTNAME
 
-for var in "${HERA_HOME}" "${WORKSPACE}" "${MAVEN_HOME}" "${JAVA_HOME}"
+for var in "${HERA_HOME}" "${WORKSPACE}"
 do
   is_defined "${var}" 'One of the HOME value or WORKSPACE is undefined'
   is_dir "${var}" 'One of the HOME or the WORKSPACE is not a dir'
@@ -47,14 +51,12 @@ if [ "${SCRIPT_TYPE}" = 'build' ]; then
   WORKSPACE="${WORKSPACE}/workdir"
 fi
 
-printJobConfig
-
 cd "${WORKSPACE}" || exit "${FAIL_TO_SET_DEFAULT_TO_WORKSPACE_CODE}"
 
 export USER='jenkins'
-printEnv
 
-if [ "${SCRIPT_TYPE}" = 'build' ]; then
+# not pur maven based jobs are using Harmonia
+if [ "${SCRIPT_TYPE}" != 'mvn' ]; then
   is_defined "${HARMONIA_HOME}" 'HARMONIA_HOME is undefined'
   is_dir "${HARMONIA_HOME}" "Provided HARMONIA_HOME is invalid: ${HARMONIA_HOME}"
 
@@ -65,10 +67,10 @@ if [ "${SCRIPT_TYPE}" = 'build' ]; then
 
   if [ "${HARMONIA_DEBUG}" ]; then
     # shellcheck disable=SC2086
-    bash -x "${HARMONIA_HOME}/eap-job.sh" ${BUILD_COMMAND} 2>&1 | tee "${HERA_HOME}/build_${BUILD_ID}.log"
+    bash -x "${HARMONIA_HOME}/${HARMONIA_SCRIPT}" ${BUILD_COMMAND} 2>&1 | tee "${HERA_HOME}/build_${BUILD_ID}.log"
   else
     # shellcheck disable=SC2086
-    "${HARMONIA_HOME}/eap-job.sh" ${BUILD_COMMAND} 2>&1 | tee "${HERA_HOME}/build_${BUILD_ID}.log"
+    "${HARMONIA_HOME}/${HARMONIA_SCRIPT}" ${BUILD_COMMAND} 2>&1 | tee "${HERA_HOME}/build_${BUILD_ID}.log"
   fi
 else
 
