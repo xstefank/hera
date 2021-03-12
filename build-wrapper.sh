@@ -2,11 +2,10 @@
 set -eo pipefail
 
 scriptType() {
-  basename "${0}" | sed -e 's/-wrapper.sh//'
+  echo ${JOB_NAME} | sed -e 's;^.*-\([^-]*\)$;\1;'
 }
 
 set +u
-readonly SCRIPT_TYPE=$(scriptType)
 readonly HARMONIA_HOME=${HARMONIA_HOME:-"${WORKSPACE}/harmonia/"}
 readonly HARMONIA_DEBUG=${HARMONIA_DEBUG}
 if [ "${SCRIPT_TYPE}" = 'build' ]; then
@@ -22,7 +21,9 @@ readonly MAVEN_SETTINGS_XML=${MAVEN_SETTINGS_XML:-'/opt/tools/settings.xml'}
 if [ "${SCRIPT_TYPE}" = 'mvn' ]; then
   readonly MAVEN_GOALS=${MAVEN_GOALS:-'clean install'}
 fi
+readonly SCRIPT_TYPE=$(scriptType)
 set -u
+
 readonly HERA_HOME=${HERA_HOME:-"${WORKSPACE}/hera/"}
 readonly FAIL_TO_SET_DEFAULT_TO_WORKSPACE_CODE='13'
 
