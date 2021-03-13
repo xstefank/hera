@@ -18,7 +18,7 @@ readonly JOB_NAME=${JOB_NAME}
 readonly PRINT_BUILD_ENV=${PRINT_BUILD_ENV:-'true'}
 readonly MAVEN_VERBOSE=${MAVEN_VERBOSE}
 readonly MAVEN_SETTINGS_XML=${MAVEN_SETTINGS_XML:-'/opt/tools/settings.xml'}
-if [ "${SCRIPT_TYPE}" = 'mvn' ]; then
+if [ "${SCRIPT_TYPE}" != 'build' ]; then
   readonly MAVEN_GOALS=${MAVEN_GOALS:-'clean install'}
 fi
 readonly SCRIPT_TYPE=$(scriptType)
@@ -57,7 +57,7 @@ cd "${WORKSPACE}" || exit "${FAIL_TO_SET_DEFAULT_TO_WORKSPACE_CODE}"
 export USER='jenkins'
 
 # not pur maven based jobs are using Harmonia
-if [ "${SCRIPT_TYPE}" != 'mvn' ]; then
+if [ "${SCRIPT_TYPE}" = 'build' ]; then
   is_defined "${HARMONIA_HOME}" 'HARMONIA_HOME is undefined'
   is_dir "${HARMONIA_HOME}" "Provided HARMONIA_HOME is invalid: ${HARMONIA_HOME}"
 
