@@ -37,15 +37,12 @@ done
 is_defined "${JOB_NAME}" 'No BUILD_NAME provided'
 is_defined "${BUILD_ID}" 'No BUILD_ID provided'
 
+# harmonia based jobs
 if [ "${SCRIPT_TYPE}" = 'build' ] || [ "${SCRIPT_TYPE}" = 'testsuite' ]; then
   is_defined "${BUILD_COMMAND}" 'No BUILD_COMMAND provided.'
   WORKSPACE="${WORKSPACE}/workdir"
-fi
+  cd "${WORKSPACE}" || exit "${FAIL_TO_SET_DEFAULT_TO_WORKSPACE_CODE}"
 
-cd "${WORKSPACE}" || exit "${FAIL_TO_SET_DEFAULT_TO_WORKSPACE_CODE}"
-
-# not pur maven based jobs are using Harmonia
-if [ "${SCRIPT_TYPE}" = 'build' ] || [ "${SCRIPT_TYPE}" = 'testsuite' ]; then
   is_defined "${HARMONIA_HOME}" 'HARMONIA_HOME is undefined'
   is_dir "${HARMONIA_HOME}" "Provided HARMONIA_HOME is invalid: ${HARMONIA_HOME}"
 
@@ -62,7 +59,7 @@ if [ "${SCRIPT_TYPE}" = 'build' ] || [ "${SCRIPT_TYPE}" = 'testsuite' ]; then
     "${HARMONIA_HOME}/${HARMONIA_SCRIPT}" ${BUILD_COMMAND} 2>&1 | tee "${HERA_HOME}/build_${BUILD_ID}.log"
   fi
 else
-
+  # pure maven based jobs
   if [ -n "${MAVEN_SETTINGS_XML}" ]; then
     readonly MAVEN_SETTINGS_OPT="-s ${MAVEN_SETTINGS_XML}"
   else
