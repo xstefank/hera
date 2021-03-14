@@ -1,29 +1,22 @@
 #!/bin/bash
 set -eo pipefail
-
-scriptType() {
-  echo ${JOB_NAME} | sed -e 's;^.*-\([^-]*\)$;\1;'
-}
-
-set +u
 readonly HARMONIA_HOME=${HARMONIA_HOME:-"${WORKSPACE}/harmonia/"}
 readonly HARMONIA_DEBUG=${HARMONIA_DEBUG}
-if [ "${SCRIPT_TYPE}" = 'build' ]; then
-  readonly BUILD_COMMAND=${BUILD_COMMAND}
-  readonly PARENT_JOB_DIR=${PARENT_JOB_DIR:-'/parent_job/'}
-fi
+readonly BUILD_COMMAND=${BUILD_COMMAND}
+readonly PARENT_JOB_DIR=${PARENT_JOB_DIR:-'/parent_job/'}
 readonly HARMONIA_SCRIPT=${HARMONIA_SCRIPT:-'eap-job.sh'}
 readonly BUILD_ID=${BUILD_ID}
 readonly JOB_NAME=${JOB_NAME}
 readonly PRINT_BUILD_ENV=${PRINT_BUILD_ENV:-'true'}
 readonly MAVEN_VERBOSE=${MAVEN_VERBOSE}
 readonly MAVEN_SETTINGS_XML=${MAVEN_SETTINGS_XML:-'/opt/tools/settings.xml'}
-if [ "${SCRIPT_TYPE}" != 'build' ]; then
-  readonly MAVEN_GOALS=${MAVEN_GOALS:-'clean install'}
-fi
-readonly SCRIPT_TYPE=$(scriptType)
+readonly MAVEN_GOALS=${MAVEN_GOALS:-'clean install'}
+readonly SCRIPT_TYPE=${JOB_NAME##*-}
 set -u
 
+readonly HOSTNAME=${HOSTNAME:-'localhost'}
+export HOSTNAME
+export USER='jenkins'
 readonly HERA_HOME=${HERA_HOME:-"${WORKSPACE}/hera/"}
 readonly FAIL_TO_SET_DEFAULT_TO_WORKSPACE_CODE='13'
 
@@ -35,9 +28,6 @@ source "${HERA_HOME}/library.sh"
 
 printJobConfig
 printEnv
-
-readonly HOSTNAME=${HOSTNAME:-'localhost'}
-export HOSTNAME
 
 for var in "${HERA_HOME}" "${WORKSPACE}"
 do
@@ -54,10 +44,8 @@ fi
 
 cd "${WORKSPACE}" || exit "${FAIL_TO_SET_DEFAULT_TO_WORKSPACE_CODE}"
 
-export USER='jenkins'
-
 # not pur maven based jobs are using Harmonia
-if [ "${SCRIPT_TYPE}" = 'build' ]; then
+if [ "${SCRIPT_TYPE}" = 'build' ] -o [ "${SCRIPT_TYPE}" = 'testsuite' ]; then
   is_defined "${HARMONIA_HOME}" 'HARMONIA_HOME is undefined'
   is_dir "${HARMONIA_HOME}" "Provided HARMONIA_HOME is invalid: ${HARMONIA_HOME}"
 
