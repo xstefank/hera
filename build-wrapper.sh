@@ -11,7 +11,6 @@ readonly PRINT_BUILD_ENV=${PRINT_BUILD_ENV:-'true'}
 readonly MAVEN_VERBOSE=${MAVEN_VERBOSE}
 readonly MAVEN_SETTINGS_XML=${MAVEN_SETTINGS_XML:-'/opt/tools/settings.xml'}
 readonly MAVEN_GOALS=${MAVEN_GOALS:-'clean install'}
-readonly SCRIPT_TYPE=${JOB_NAME##*-}
 set -u
 
 readonly HOSTNAME=${HOSTNAME:-'localhost'}
@@ -67,6 +66,7 @@ else
   fi
 
   echo '==== Executing Maven ==='
+  echo "Current dir: $(pwd)"
   echo "Cmd: # ${MAVEN_HOME}/bin/mvn ${MAVEN_SETTINGS_OPT} ${MAVEN_OPTS} ${MAVEN_GOALS}"
   # shellcheck disable=SC2086
   ${MAVEN_HOME}/bin/mvn ${MAVEN_SETTINGS_OPT} ${MAVEN_OPTS} ${MAVEN_GOALS}
