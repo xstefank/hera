@@ -37,7 +37,7 @@ done
 is_defined "${JOB_NAME}" 'No BUILD_NAME provided'
 is_defined "${BUILD_ID}" 'No BUILD_ID provided'
 
-if [ "${SCRIPT_TYPE}" = 'build' ]; then
+if [ "${SCRIPT_TYPE}" = 'build' ] || [ "${SCRIPT_TYPE}" = 'testsuite' ]; then
   is_defined "${BUILD_COMMAND}" 'No BUILD_COMMAND provided.'
   WORKSPACE="${WORKSPACE}/workdir"
 fi
