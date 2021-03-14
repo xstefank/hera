@@ -4,7 +4,7 @@ readonly HARMONIA_HOME=${HARMONIA_HOME:-"${WORKSPACE}/harmonia/"}
 readonly HARMONIA_DEBUG=${HARMONIA_DEBUG}
 readonly BUILD_COMMAND=${BUILD_COMMAND}
 readonly PARENT_JOB_DIR=${PARENT_JOB_DIR:-'/parent_job/'}
-readonly HARMONIA_SCRIPT=${HARMONIA_SCRIPT:-'eap-job.sh'}
+readonly HARMONIA_SCRIPT=${HARMONIA_SCRIPT}
 readonly BUILD_ID=${BUILD_ID}
 readonly JOB_NAME=${JOB_NAME}
 readonly PRINT_BUILD_ENV=${PRINT_BUILD_ENV:-'true'}
@@ -38,8 +38,8 @@ is_defined "${JOB_NAME}" 'No BUILD_NAME provided'
 is_defined "${BUILD_ID}" 'No BUILD_ID provided'
 
 # harmonia based jobs
-if [ "${SCRIPT_TYPE}" = 'build' ] || [ "${SCRIPT_TYPE}" = 'testsuite' ]; then
-  is_defined "${BUILD_COMMAND}" 'No BUILD_COMMAND provided.'
+if [ -n "${HARMONIA_SCRIPT}" ]; then
+  #is_defined "${BUILD_COMMAND}" 'No BUILD_COMMAND provided.'
   WORKSPACE="${WORKSPACE}/workdir"
   cd "${WORKSPACE}" || exit "${FAIL_TO_SET_DEFAULT_TO_WORKSPACE_CODE}"
 
