@@ -58,6 +58,7 @@ if [ -n "${HARMONIA_SCRIPT}" ]; then
     "${HARMONIA_HOME}/${HARMONIA_SCRIPT}" ${BUILD_COMMAND} 2>&1 | tee "${HERA_HOME}/build_${BUILD_ID}.log"
   fi
 else
+  cd "${WORKSPACE}" || exit "${FAIL_TO_SET_DEFAULT_TO_WORKSPACE_CODE}"
   # pure maven based jobs
   if [ -n "${MAVEN_SETTINGS_XML}" ]; then
     readonly MAVEN_SETTINGS_OPT="-s ${MAVEN_SETTINGS_XML}"
