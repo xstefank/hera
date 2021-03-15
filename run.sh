@@ -2,6 +2,7 @@
 set +u
 readonly PARENT_JOB_VOLUME=${PARENT_JOB_VOLUME}
 readonly BUILD_PODMAN_IMAGE=${BUILD_PODMAN_IMAGE:-'ubi8-jdk8'}
+readonly CONTAINER_USER=${CONTAINER_USER:-'jenkins'}
 readonly JENKINS_HOME_DIR=${JENKINS_HOME_DIR:-'/home/jenkins/'}
 readonly JOB_NAME=${JOB_NAME}
 readonly BUILD_ID=${BUILD_ID}
@@ -29,6 +30,7 @@ run_ssh "podman run \
             --name "${CONTAINER_TO_RUN_NAME}" \
              --add-host=thunder.next:192.168.0.11 \
             --rm $(add_parent_volume_if_provided) \
+             -u "${CONTAINER_USER}" --userns=keep-id \
             --workdir ${JENKINS_HOME_DIR}/jobs/${JOB_NAME}/workspace \
             -v ${JENKINS_HOME_DIR}/jobs/${JOB_NAME}:$(dirname "${WORKSPACE}"):rw \
             -v /opt/:/opt/:ro \
