@@ -1,7 +1,7 @@
 #!/bin/bash
 set +u
 readonly PARENT_JOB_VOLUME=${PARENT_JOB_VOLUME}
-readonly BUILD_PODMAN_IMAGE=${BUILD_PODMAN_IMAGE:-'automaton'}
+readonly BUILD_PODMAN_IMAGE=${BUILD_PODMAN_IMAGE:-'localhost/automatons'}
 readonly CONTAINER_USER=${CONTAINER_USER:-'jenkins'}
 readonly JENKINS_HOME_DIR=${JENKINS_HOME_DIR:-'/home/jenkins/'}
 readonly JOB_NAME=${JOB_NAME}
