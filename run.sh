@@ -6,6 +6,8 @@ readonly CONTAINER_USER=${CONTAINER_USER:-'jenkins'}
 readonly JENKINS_HOME_DIR=${JENKINS_HOME_DIR:-'/home/jenkins/'}
 readonly JOB_NAME=${JOB_NAME}
 readonly BUILD_ID=${BUILD_ID}
+readonly CONTAINER_SERVER_HOSTNAME=${CONTAINER_SERVER_HOSTNAME:-'olympus'}
+readonly CONTAINER_SERVER_IP=${CONTAINER_SERVER_IP:-'10.88.0.1'}
 set -u
 
 add_parent_volume_if_provided() {
@@ -21,6 +23,8 @@ is_defined "${WORKSPACE}" "No WORKSPACE provided." 1
 is_dir "${WORKSPACE}" "Workspace provided is not a dir: ${WORKSPACE}" 2
 is_defined "${JOB_NAME}" "No JOB_NAME provided." 3
 is_defined "${BUILD_ID}" "No BUILD_ID provided." 4
+is_defined "${CONTAINER_SERVER_HOSTNAME}" "No hostname provided for the container server"
+is_defined "${CONTAINER_SERVER_IP}" 'No IP address provided for the container server'
 
 readonly CONTAINER_TO_RUN_NAME=${CONTAINER_TO_RUN_NAME:-$(container_name "${JOB_NAME}" "${BUILD_ID}")}
 readonly CONTAINER_COMMAND=${CONTAINER_COMMAND:-"${WORKSPACE}/hera/wait.sh"}
@@ -28,7 +32,7 @@ readonly CONTAINER_COMMAND=${CONTAINER_COMMAND:-"${WORKSPACE}/hera/wait.sh"}
 # shellcheck disable=SC2016
 run_ssh "podman run \
             --name "${CONTAINER_TO_RUN_NAME}" \
-             --add-host=olympus:192.168.0.11 \
+             --add-host=${CONTAINER_SERVER_HOSTNAME}:${CONTAINER_SERVER_IP}  \
             --rm $(add_parent_volume_if_provided) \
              -u "${CONTAINER_USER}" --userns=keep-id \
             --workdir ${JENKINS_HOME_DIR}/jobs/${JOB_NAME}/workspace \
