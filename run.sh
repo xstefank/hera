@@ -2,13 +2,11 @@
 set +u
 readonly PARENT_JOB_VOLUME=${PARENT_JOB_VOLUME}
 readonly BUILD_PODMAN_IMAGE=${BUILD_PODMAN_IMAGE:-'localhost/automatons'}
-readonly CONTAINER_USER=${CONTAINER_USER:-'jenkins'}
 readonly JENKINS_HOME_DIR=${JENKINS_HOME_DIR:-'/home/jenkins/'}
 readonly JOB_NAME=${JOB_NAME}
 readonly BUILD_ID=${BUILD_ID}
 readonly CONTAINER_SERVER_HOSTNAME=${CONTAINER_SERVER_HOSTNAME:-'olympus'}
 readonly CONTAINER_SERVER_IP=${CONTAINER_SERVER_IP:-'10.88.0.1'}
-readonly CONTAINER_USERNS_MODE=${CONTAINER_USERNS_MODE:-'host'}
 set -u
 
 add_parent_volume_if_provided() {
@@ -35,7 +33,6 @@ run_ssh "podman run \
             --name "${CONTAINER_TO_RUN_NAME}" \
              --add-host=${CONTAINER_SERVER_HOSTNAME}:${CONTAINER_SERVER_IP}  \
             --rm $(add_parent_volume_if_provided) \
-             -u "${CONTAINER_USER}" --userns="${CONTAINER_USERNS_MODE}" \
             --workdir ${JENKINS_HOME_DIR}/jobs/${JOB_NAME}/workspace \
             -v ${JENKINS_HOME_DIR}/jobs/${JOB_NAME}:$(dirname "${WORKSPACE}"):rw \
             -v /opt/:/opt/:ro \
