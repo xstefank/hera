@@ -38,7 +38,6 @@ is_defined "${BUILD_ID}" 'No BUILD_ID provided'
 
 # harmonia based jobs
 if [ -n "${HARMONIA_SCRIPT}" ]; then
-  #is_defined "${BUILD_COMMAND}" 'No BUILD_COMMAND provided.'
   WORKSPACE="${WORKSPACE}/workdir"
   cd "${WORKSPACE}" || exit "${FAIL_TO_SET_DEFAULT_TO_WORKSPACE_CODE}"
 

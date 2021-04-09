@@ -41,4 +41,6 @@ run_ssh "podman exec \
         -e BUILD_COMMAND="${BUILD_COMMAND}" \
         -e RERUN_FAILING_TESTS="${RERUN_FAILING_TESTS}" \
         -e MAVEN_SETTINGS_XML="${MAVEN_SETTINGS_XML}" \
+        -e PULL_REQUEST_PROCESSOR_HOME="${PULL_REQUEST_PROCESSOR_HOME}" \
+        -e VERSION="${VERSION}" \
         -ti ${CONTAINER_NAME} '${BUILD_SCRIPT}' ${@}"
