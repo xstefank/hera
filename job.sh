@@ -30,6 +30,7 @@ set +u
 run_ssh "podman exec \
         -e JOB_NAME="${JOB_NAME}" \
         -e WORKSPACE="${WORKSPACE}" \
+        -e WORKDIR="${WORKDIR}" \
         -e JAVA_HOME="${JAVA_HOME}" \
         -e HARMONIA_SCRIPT="${HARMONIA_SCRIPT}" \
         -e TO_ADDRESS="${TO_ADDRESS}" \
