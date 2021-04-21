@@ -46,7 +46,9 @@ if [ -n "${HARMONIA_SCRIPT}" ]; then
 
   if [ "${BUILD_COMMAND}" = 'testsuite' ]; then
     is_dir "${PARENT_JOB_DIR}"
-    copy_artefact_from_parent_job "${PARENT_JOB_DIR}/workdir/" "${WORKSPACE}"
+    mdkir -p "${WORKSPACE}/testsuite/"
+    copy_artefact_from_parent_job "${PARENT_JOB_DIR}/workdir" "${WORKSPACE}/testsuite/"
+    cd "${WORKSPACE}/testsuite/workdir"
   fi
 
   if [ "${HARMONIA_DEBUG}" ]; then
