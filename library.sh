@@ -5,7 +5,6 @@ readonly HERA_HOSTNAME=${HERA_HOSTNAME:-'olympus'}
 readonly HERA_USERNAME=${HERA_USERNAME:-'jenkins'}
 readonly HERA_SSH_OPTIONS=${HERA_SSH_OPTIONS}
 readonly CONTAINER_NAME_PREFIX=${CONTAINER_NAME_PREFIX:-'automaton-slave'}
-readonly HERA_DEBUG=${HERA_DEBUG}
 export TERM=${TERM:-'screen'}
 set -u
 
@@ -109,15 +108,9 @@ copy_artefact_from_parent_job() {
   is_dir "${parent_job_dir}" "Provided parent job dir is not a directory: ${parent_job_dir}"
 
   echo "parent_job_dir: ${parent_job_dir}"
-  if [ -n "${HERA_DEBUG}" ]; then
-    ls -1 "${parent_job_dir}"
-    echo "workspace:${workspace}"
-    ls -1 "${workspace}"
-  fi
+  echo "workspace:${workspace}"
   echo "Copying artefacts from ${parent_job_dir} to ${workspace}"
-  if [ -n "${HERA_DEBUG}" ]; then
-    echo rsync -ar --exclude hera/ --exclude harmonia/ "${parent_job_dir}" "${workspace}"
-  fi
+  echo rsync -ar --exclude hera/ --exclude harmonia/ "${parent_job_dir}" "${workspace}"
   echo -n ' - starting copy at: '
   date +%T
   echo '...'
