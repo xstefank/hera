@@ -108,7 +108,15 @@ copy_artefact_from_parent_job() {
   is_dir "${parent_job_dir}" "Provided parent job dir is not a directory: ${parent_job_dir}"
 
   echo "parent_job_dir: ${parent_job_dir}"
+  if [ -n "${HERA_DEBUG}" ]; then
+    ls -1 "${parent_job_dir}"
+    echo "workspace:${workspace}"
+    ls -1 "${workspace}"
+  fi
   echo "Copying artefacts from ${parent_job_dir} to ${workspace}"
+  if [ -n "${HERA_DEBUG}" ]; then
+    echo rsync -ar --exclude hera/ --exclude harmonia/ "${parent_job_dir}" "${workspace}"
+  fi
   echo -n ' - starting copy at: '
   date +%T
   echo '...'
