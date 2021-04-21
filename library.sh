@@ -112,11 +112,13 @@ copy_artefact_from_parent_job() {
   echo "workspace:${workspace}"
   rm -rf "${workspace}"
   echo "Copying artefacts from ${parent_job_dir} to ${workspace}"
-  echo rsync -ar --exclude hera/ --exclude harmonia/ "${parent_job_dir}" "${workspace}"
+  #echo rsync -ar --exclude hera/ --exclude harmonia/ "${parent_job_dir}" "${workspace}"
+  echo cp -Rv "${parent_job_dir}" "$(dirname ${workspace})"
   echo -n ' - starting copy at: '
   date +%T
   echo '...'
-  rsync -ar --exclude hera/ --exclude harmonia/ "${parent_job_dir}" "${workspace}"
+  cp -Rv "${parent_job_dir}" "$(dirname ${workspace})"
+  #rsync -ar --exclude hera/ --exclude harmonia/ "${parent_job_dir}" "${workspace}"
   echo "Done (at $(date +%T))"
   echo 'check if required test dependency are available'
   find "${workspace}" -name '*wildfly-testsuite-shared*' -type d
