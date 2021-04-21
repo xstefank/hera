@@ -5,6 +5,7 @@ readonly HERA_HOSTNAME=${HERA_HOSTNAME:-'olympus'}
 readonly HERA_USERNAME=${HERA_USERNAME:-'jenkins'}
 readonly HERA_SSH_OPTIONS=${HERA_SSH_OPTIONS}
 readonly CONTAINER_NAME_PREFIX=${CONTAINER_NAME_PREFIX:-'automaton-slave'}
+readonly HERA_DEBUG=${HERA_DEBUG}
 export TERM=${TERM:-'screen'}
 set -u
 
