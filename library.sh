@@ -108,10 +108,13 @@ copy_artefact_from_parent_job() {
   is_dir "${parent_job_dir}" "Provided parent job dir is not a directory: ${parent_job_dir}"
 
   echo "parent_job_dir: ${parent_job_dir}"
+  echo "workspace: ${workspace}"
   echo "Copying artefacts from ${parent_job_dir} to ${workspace}"
+  echo rsync -ar --exclude hera/ --exclude harmonia/ "${parent_job_dir}" "${workspace}"
   echo -n ' - starting copy at: '
   date +%T
   echo '...'
+
   rsync -ar --exclude hera/ --exclude harmonia/ "${parent_job_dir}" "${workspace}"
   echo "Done (at $(date +%T))"
   echo 'check if required test dependency are available'
