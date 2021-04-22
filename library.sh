@@ -113,7 +113,7 @@ copy_artefact_from_parent_job() {
   rm -rf "${workspace}"
   echo "Copying artefacts from ${parent_job_dir} to ${workspace}"
   #echo rsync -ar --exclude hera/ --exclude harmonia/ "${parent_job_dir}" "${workspace}"
-  echo cp -Rv "${parent_job_dir}" "$(dirname ${workspace})"
+  echo cp -Rv "${parent_job_dir}/*" "$(dirname ${workspace})"
   echo -n ' - starting copy at: '
   date +%T
   echo '...'
