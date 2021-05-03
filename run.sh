@@ -33,7 +33,7 @@ run_ssh "podman run \
             --name "${CONTAINER_TO_RUN_NAME}" \
              --add-host=${CONTAINER_SERVER_HOSTNAME}:${CONTAINER_SERVER_IP}  \
             --rm $(add_parent_volume_if_provided) \
-            --workdir ${JENKINS_HOME_DIR}/jobs/${JOB_NAME}/workspace \
-            -v ${JENKINS_HOME_DIR}/jobs/${JOB_NAME}:$(dirname "${WORKSPACE}"):rw \
+            --workdir ${WORKSPACE} \
+            -v "${JENKINS_HOME_DIR}/workspace/${JOB_NAME}":$(dirname "${WORKSPACE}")/${JOB_NAME}:rw \
             -v /opt/:/opt/:ro \
 	        -d ${BUILD_PODMAN_IMAGE} '${CONTAINER_COMMAND}'"
