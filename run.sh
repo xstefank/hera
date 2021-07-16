@@ -3,6 +3,8 @@ set +u
 readonly PARENT_JOB_VOLUME=${PARENT_JOB_VOLUME}
 readonly BUILD_PODMAN_IMAGE=${BUILD_PODMAN_IMAGE:-'localhost/automatons'}
 readonly JENKINS_HOME_DIR=${JENKINS_HOME_DIR:-'/home/jenkins/'}
+readonly JENKINS_UID=${JENKINS_UID:-'1000'}
+readonly JENKINS_GUID=${JENKINS_GUID:-"${JENKINS_UID}"}
 readonly JOB_NAME=${JOB_NAME}
 readonly BUILD_ID=${BUILD_ID}
 readonly CONTAINER_SERVER_HOSTNAME=${CONTAINER_SERVER_HOSTNAME:-'olympus'}
@@ -32,6 +34,7 @@ readonly CONTAINER_COMMAND=${CONTAINER_COMMAND:-"${WORKSPACE}/hera/wait.sh"}
 
 # shellcheck disable=SC2016
 run_ssh "podman run \
+            --userns=keep-id -u ${JENKINS_UID}:${JENKINS_GUID} \
             --name "${CONTAINER_TO_RUN_NAME}" \
              --add-host=${CONTAINER_SERVER_HOSTNAME}:${CONTAINER_SERVER_IP}  \
             --rm $(add_parent_volume_if_provided) \
